@@ -19,8 +19,8 @@ public class ReadCSV : MonoBehaviour {
 		for (int file = 1; file < 124; file++) {
 			csvfiles.Add (file.ToString("0000")+".csv");
 		}
-		for (int j = 0; j < csvfiles.Count; j++) {		
-			string fileData = System.IO.File.ReadAllText (Application.dataPath + "/CSV/"+csvfiles[j]);
+		for (int j = 0; j < csvfiles.Count; j++) {
+			string fileData = System.IO.File.ReadAllText(Application.dataPath + "/CSV/"+csvfiles[j]);
 			string[] lines = fileData.Split ("\n" [0]);
 		
 			List<string> currentInstruments = new List<string>();
