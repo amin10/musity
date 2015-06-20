@@ -7,54 +7,41 @@ using System.Collections.Generic;
 public class ReadCSV : MonoBehaviour {
 	
 	public Dictionary<string, Color> instruments = new Dictionary<string, Color>();
-	public string[] csvfiles = {
-		"rainfall.csv", "phoenix.csv"
-	};
+	public List<string> csvfiles = new List<string>();
 	public Color[] colors = {
 		Color.red, Color.green, Color.blue,  Color.yellow, Color.cyan, Color.black, Color.magenta
 	};
-	public int currentColor= 0;
-	
+
 	void Start ()
 	{
-		for (int j = 0; j < csvfiles.Length; j++) {
-			print(j);
-		
+		int currentColor = 0;
+		for (int file = 1; file < 124; file++) {
+			csvfiles.Add (file.ToString("0000")+".csv");
+		}
+		for (int j = 0; j < csvfiles.Count; j++) {		
 			string fileData = System.IO.File.ReadAllText (Application.dataPath + "/CSV/"+csvfiles[j]);
 			string[] lines = fileData.Split ("\n" [0]);
 		
-			//Regex startRegex = new Regex( @"^\d+\.\d+");
-			//Regex endRegex = new Regex( @"(?<=^\d+\.\d+,{1})\d+\.\d+");
-			//Regex instrumentRegex = new Regex (@"\w+\s+\w+(s\+)");
-			
+			List<string> currentInstruments = new List<string>();
 			
 			for (int i = 1; i < lines.Length-1; i++) {
 				string[] items = lines [i].Split ("," [0]);
 
-				//print ("start: " + items[0] + " end: " + items[1]);
 				GameObject cube = Instantiate (Resources.Load ("Prefabs/Cube")) as GameObject;
 				if( !instruments.ContainsKey(items[2])){
-					instruments.Add(items[2], colors[currentColor]);
-					currentColor = (currentColor + 1)% colors.Length;
+					instruments.Add(items[2], colors[currentColor%(colors.Length)]);
+
+					currentColor = currentColor + 1;
 				}
-				cube.GetComponent<MeshRenderer> ().material.color = instruments [items [2]];
-				cube.transform.localScale = new Vector3 (1, 1, float.Parse (items [1]) - float.Parse (items [0]));
-				
-				switch (items [2]) {
-				case "acoustic guitar":
-					cube.transform.position = new Vector3 (j, 1, float.Parse (items [0]));
-					break;
-						
-				case "female singer":
-					cube.transform.position = new Vector3 (j, 2, float.Parse (items [0]));
-					break;
-						
-				case "clean electric guitar":
-					cube.transform.position = new Vector3 (j, 3, float.Parse (items [0]));
-					break;
+				if (! currentInstruments.Contains (items[2])){
+					currentInstruments.Add(items[2]);
 				}
 
-				
+				cube.GetComponent<MeshRenderer>().material.color = instruments [items [2]];
+				cube.transform.localScale = new Vector3 (1, 1, float.Parse (items [1]) - float.Parse (items [0]));
+
+
+				cube.transform.position = new Vector3 (j, currentInstruments.IndexOf(items[2])+1, float.Parse (items[0]));
 
 			}
 		}

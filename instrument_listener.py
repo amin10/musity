@@ -31,5 +31,9 @@ class instrument_listener:
             for row in l:
                 csvfile.write(",".join(row)+'\n')
 
-instrument_listener("rainfall" ,"csv").sort_by_start_time()
-instrument_listener("phoenix","csv").sort_by_start_time()
+import glob, os
+files = glob.glob(os.getcwd()+"/*.csv")
+print files
+for f in files:
+    name = f.split('/')[-1]
+    instrument_listener( name[:len(name)-4],name[len(name)-3:]).sort_by_start_time()
