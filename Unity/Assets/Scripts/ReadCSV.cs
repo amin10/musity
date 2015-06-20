@@ -15,6 +15,7 @@ public class ReadCSV : MonoBehaviour {
 	void Start ()
 	{
 		int currentColor = 0;
+
 		for (int file = 1; file < 124; file++) {
 			csvfiles.Add (file.ToString("0000")+".csv");
 		}
