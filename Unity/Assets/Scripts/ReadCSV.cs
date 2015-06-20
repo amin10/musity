@@ -32,6 +32,7 @@ public class ReadCSV : MonoBehaviour {
 			GameObject cube = Instantiate(Resources.Load ("Prefabs/Cube"), new Vector3(0,0, float.Parse(items[0])), Quaternion.identity) as GameObject;
 			cube.transform.localScale = new Vector3 (1,1, float.Parse (items[1]) - float.Parse (items[0]));
 			
+			cube.GetComponent<MeshRenderer>().sharedMaterial.color = instruments[items[2]];
 			
 //			Match startMatch = startRegex.Match (lines[i]);
 //			Match endMatch = endRegex.Match (lines[i]);
