@@ -19,15 +19,16 @@ public class ReadCSV : MonoBehaviour {
 		string fileData = System.IO.File.ReadAllText(Application.dataPath+"/CSV/rainfall.csv");
 		string[] lines = fileData.Split("\n"[0]);
 	
-		Regex startRegex = new Regex( @"^\d+\.\d+");
-		Regex endRegex = new Regex( @"(?<=^\d+\.\d+,{1})\d+\.\d+");
-		Regex instrumentRegex = new Regex (@"\w+\s+\w+(s\+)");
+		//Regex startRegex = new Regex( @"^\d+\.\d+");
+		//Regex endRegex = new Regex( @"(?<=^\d+\.\d+,{1})\d+\.\d+");
+		//Regex instrumentRegex = new Regex (@"\w+\s+\w+(s\+)");
 		
 		
-		for (int i = 1; i < lines.Length; i++)
+		for (int i = 1; i < lines.Length - 1; i++)
 		{
 			string[] items = lines[i].Split (","[0]);
 			
+			print ("start: " + items[0] + " end: " + items[1]);
 			GameObject cube = Instantiate(Resources.Load ("Prefabs/Cube"), new Vector3(0,0, float.Parse(items[0])), Quaternion.identity) as GameObject;
 			cube.transform.localScale = new Vector3 (1,1, float.Parse (items[1]) - float.Parse (items[0]));
 			
