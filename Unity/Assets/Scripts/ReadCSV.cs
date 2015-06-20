@@ -28,11 +28,27 @@ public class ReadCSV : MonoBehaviour {
 		{
 			string[] items = lines[i].Split (","[0]);
 			
-			print ("start: " + items[0] + " end: " + items[1]);
-			GameObject cube = Instantiate(Resources.Load ("Prefabs/Cube"), new Vector3(0,0, float.Parse(items[0])), Quaternion.identity) as GameObject;
+			//print ("start: " + items[0] + " end: " + items[1]);
+			GameObject cube = Instantiate(Resources.Load ("Prefabs/Cube")) as GameObject;
+			cube.GetComponent<MeshRenderer>().material.color = instruments[items[2]];
 			cube.transform.localScale = new Vector3 (1,1, float.Parse (items[1]) - float.Parse (items[0]));
 			
-			cube.GetComponent<MeshRenderer>().sharedMaterial.color = instruments[items[2]];
+			switch (items[2])
+			{
+				case "acoustic guitar":
+					cube.transform.position = new Vector3(0,1, float.Parse(items[0]));
+					break;
+					
+				case "female singer":
+					cube.transform.position = new Vector3(0,2, float.Parse(items[0]));
+					break;
+					
+				case "clean electric guitar":
+              		cube.transform.position = new Vector3(0,3, float.Parse(items[0]));
+             	 	break;
+			}
+			
+			//print (items[2]);
 			
 //			Match startMatch = startRegex.Match (lines[i]);
 //			Match endMatch = endRegex.Match (lines[i]);
