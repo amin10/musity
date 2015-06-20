@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class ReadCSV : MonoBehaviour {
 	
 	public Dictionary<string, Color> instruments = new Dictionary<string, Color>();
-	public List<string> csvfiles = new List<string>();
+	List<string> csvfiles = new List<string>();
 	public Color[] colors = {
 		Color.red, Color.green, Color.blue,  Color.yellow, Color.cyan, Color.black, Color.magenta
 	};
