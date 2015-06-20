@@ -2,8 +2,16 @@
 using UnityEngine;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 public class ReadCSV : MonoBehaviour {
+	
+	private Dictionary<string, Color> instruments = new Dictionary<string, Color>
+	{
+		{"acoustic guitar", Color.red},
+		{"female singer", Color.blue},
+		{"clean electric guitar", Color.green}
+	};
 	
 	void Start ()
 	{
@@ -11,17 +19,21 @@ public class ReadCSV : MonoBehaviour {
 		string fileData = System.IO.File.ReadAllText("/Users/romansharf/unity-experiments/musity/Unity/Assets/CSV/rainfall.csv");
 		string[] lines = fileData.Split("\n"[0]);
 		
-		Regex regex = new Regex( @"^\d+\.\d+");
-		
+		Regex startRegex = new Regex( @"^\d+\.\d+");
+		Regex endRegex = new Regex( @"(?<=^\d+\.\d+,{1})\d+\.\d+");
+		//Regex instrumentType = new Regex (@"");
 		for (int i = 1; i < lines.Length; i++)
 		{
-			Match match = regex.Match (lines[i]);
-			if (match.Success)
+			Match startMatch = startRegex.Match (lines[i]);
+			Match endMatch = endRegex.Match (lines[i]);
+			
+			if (startMatch.Success && endMatch.Success)
 			{
-				print (match.Value);
+				GameObject cube = Instantiate(Resources.Load ("Prefabs/Cube"), new Vector3(0,0, float.Parse(startMatch.Value)), Quaternion.identity) as GameObject;
+				cube.transform.localScale = new Vector3 (1,1, float.Parse (endMatch.Value) - float.Parse (startMatch.Value));
+				
+				//print (endMatch.Value);
 			}
-			//print (Regex.IsMatch(lines[i], @"^\d.\\d").Groups[1].Value);
-			//Instantiate(Resources.Load ("Prefabs/Cube"));
 		}
 		
 		
