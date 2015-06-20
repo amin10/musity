@@ -16,8 +16,7 @@ public class ReadCSV : MonoBehaviour {
 	
 	void Start ()
 	{
-	
-		string fileData = System.IO.File.ReadAllText("/Users/romansharf/unity-experiments/musity/Unity/Assets/CSV/rainfall.csv");
+		string fileData = System.IO.File.ReadAllText(Application.dataPath+"/CSV/rainfall.csv");
 		string[] lines = fileData.Split("\n"[0]);
 	
 		Regex startRegex = new Regex( @"^\d+\.\d+");
